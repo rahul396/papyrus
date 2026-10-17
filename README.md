@@ -45,3 +45,17 @@ Host ports can be changed in `.env` (`BACKEND_PORT`, `FRONTEND_PORT`, `DB_PORT`)
 Both backend and frontend hot-reload from the mounted source.
 
 The frontend calls the API through Vite's dev proxy (`/api/*` → `http://backend:8000/*`), so no CORS setup is needed. When running Vite outside Docker, set `API_PROXY_TARGET=http://localhost:8000`.
+
+## Production
+
+```bash
+cp .env.prod.example .env.prod   # set a real POSTGRES_PASSWORD
+docker compose -f docker-compose-PROD.yml --env-file .env.prod up -d --build
+```
+
+- The frontend is built into static files and served by nginx on `APP_PORT` (default 80). nginx proxies `/api/*` to the backend.
+- The backend and Postgres are not published to the host; data lives in the `papyrus-prod_db_data` volume.
+- Always pass `--env-file .env.prod`: without it Compose falls back to the dev `.env`.
+- No TLS is configured — put it behind a TLS-terminating proxy (Caddy, Traefik, a load balancer, …) for HTTPS.
+
+Update: `git pull && docker compose -f docker-compose-PROD.yml --env-file .env.prod up -d --build`

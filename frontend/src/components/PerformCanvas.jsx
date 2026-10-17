@@ -53,8 +53,10 @@ export default function PerformCanvas({ song, bpm, onExit }) {
     if (!playing) return;
     originRef.current = performance.now() - elapsedRef.current;
     let frame;
-    const tick = (now) => {
-      const t = Math.min(now - originRef.current, total);
+    // Use performance.now() rather than the rAF timestamp, which can be slightly
+    // earlier than the origin and produce a negative elapsed time.
+    const tick = () => {
+      const t = Math.min(Math.max(performance.now() - originRef.current, 0), total);
       elapsedRef.current = t;
       setElapsed(t);
       if (t >= total) {
@@ -147,13 +149,14 @@ export default function PerformCanvas({ song, bpm, onExit }) {
       </div>
 
       <div className="perform-controls">
-        <button onMouseDown={noFocus} onClick={() => seek(0)}>⏮ Restart</button>
-        <button onMouseDown={noFocus} onClick={prev}>◀ Prev</button>
+        <button onMouseDown={noFocus} onClick={() => seek(0)}>⏮<span className="label"> Restart</span></button>
+        <button onMouseDown={noFocus} onClick={prev}>◀<span className="label"> Prev</span></button>
         <button onMouseDown={noFocus} onClick={toggle} className="primary">
-          {done ? "↻ Replay" : playing ? "⏸ Pause" : "▶ Play"}
+          {done ? "↻" : playing ? "⏸" : "▶"}
+          <span className="label">{done ? " Replay" : playing ? " Pause" : " Play"}</span>
         </button>
-        <button onMouseDown={noFocus} onClick={next}>Next ▶</button>
-        <button onMouseDown={noFocus} onClick={onExit}>✕ Exit</button>
+        <button onMouseDown={noFocus} onClick={next}><span className="label">Next </span>▶</button>
+        <button onMouseDown={noFocus} onClick={onExit}>✕<span className="label"> Exit</span></button>
       </div>
     </div>
   );

@@ -2,8 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Papyrus</title>
+    <script>
+      // Apply saved theme/accent before first paint to avoid a flash.
+      try {
+        const saved = JSON.parse(localStorage.getItem("papyrus.appearance") || "{}");
+        const root = document.documentElement;
+        if (saved.theme === "light" || saved.theme === "dark") root.dataset.theme = saved.theme;
+        if (saved.accent) root.dataset.accent = saved.accent;
+      } catch {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

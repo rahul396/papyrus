@@ -13,7 +13,7 @@ export default function SongList({ onOpen, onNew }) {
     <section>
       <div className="toolbar">
         <h2>Library</h2>
-        <button onClick={onNew}>+ Add song</button>
+        <button className="primary" onClick={onNew}>+ Add song</button>
       </div>
       {error && <p className="error">Couldn't load songs ({error})</p>}
       {!songs && !error && <p>Loading…</p>}
@@ -21,10 +21,14 @@ export default function SongList({ onOpen, onNew }) {
       {songs && songs.length > 0 && (
         <ul className="song-list">
           {songs.map((song) => (
-            <li key={song.uuid} onClick={() => onOpen(song.uuid)}>
-              <strong>{song.title}</strong>
-              <span>{song.artist}</span>
-              <span className="muted">{song.bpm} BPM</span>
+            <li key={song.uuid}>
+              <button className="song-row" onClick={() => onOpen(song.uuid)}>
+                <span className="song-row-text">
+                  <strong>{song.title}</strong>
+                  <span className="muted">{song.artist}</span>
+                </span>
+                <span className="pill">{song.bpm} BPM</span>
+              </button>
             </li>
           ))}
         </ul>

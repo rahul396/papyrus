@@ -43,20 +43,29 @@ export default function SongView({ uuid, onBack, onEdit, onDeleted }) {
       {song && (
         <>
           <h2>{song.title}</h2>
-          <p className="muted">
+          <p className="muted song-meta">
             {song.artist} · {song.album}
             {song.year ? ` · ${song.year}` : ""} · {song.bpm} BPM
           </p>
           <div className="perform-bar">
-            <label>
-              BPM
-              <input
-                type="number"
-                min="1"
-                value={bpm}
-                onChange={(e) => setBpm(e.target.value)}
-              />
-            </label>
+            <div className="stepper">
+              <button aria-label="Slower" onClick={() => setBpm((b) => Math.max(1, Number(b) - 1))}>
+                −
+              </button>
+              <label>
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  min="1"
+                  value={bpm}
+                  onChange={(e) => setBpm(e.target.value)}
+                />
+                <span>BPM</span>
+              </label>
+              <button aria-label="Faster" onClick={() => setBpm((b) => Number(b) + 1)}>
+                +
+              </button>
+            </div>
             <button
               className="primary"
               onClick={() => setPerforming(true)}
