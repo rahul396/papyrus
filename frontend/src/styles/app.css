@@ -1,0 +1,54 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; background: #fafafa; color: #222; }
+.app { max-width: 760px; margin: 0 auto; padding: 0 16px 48px; }
+header h1 { cursor: pointer; margin: 24px 0; }
+button { padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; }
+button:disabled { opacity: 0.6; }
+button.danger { color: #b00020; border-color: #e0a0a8; }
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.actions { display: flex; gap: 8px; }
+.muted { color: #777; }
+.error { color: #b00020; }
+
+.song-list { list-style: none; padding: 0; }
+.song-list li { display: flex; gap: 16px; align-items: baseline; padding: 12px; background: #fff; border: 1px solid #eee; border-radius: 4px; margin-bottom: 8px; cursor: pointer; }
+.song-list li:hover { border-color: #bbb; }
+.song-list li .muted { margin-left: auto; }
+
+.lines { font-family: ui-monospace, monospace; }
+.line { margin-bottom: 12px; }
+.chords { color: #0b5cad; font-weight: 600; }
+
+.song-form { display: flex; flex-direction: column; gap: 12px; }
+.song-form label { display: flex; flex-direction: column; gap: 4px; flex: 1; font-weight: 600; }
+.song-form input, .song-form textarea { padding: 8px; border: 1px solid #ccc; border-radius: 4px; font: inherit; font-weight: normal; }
+.song-form textarea { font-family: ui-monospace, monospace; }
+.song-form .row { display: flex; gap: 12px; }
+.hint { font-weight: normal; font-size: 0.85em; color: #777; }
+button.primary { background: #0b5cad; border-color: #0b5cad; color: #fff; }
+
+.perform-bar { display: flex; align-items: center; gap: 12px; margin: 16px 0 24px; }
+.perform-bar label { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.perform-bar input { width: 80px; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; font: inherit; }
+
+/* Perform canvas: full-screen, dark, ~3 lines visible */
+.perform { position: fixed; inset: 0; z-index: 10; display: flex; flex-direction: column; background: #111; color: #eee; }
+.perform .muted { color: #888; }
+.perform-header { display: flex; justify-content: space-between; gap: 16px; padding: 16px 24px; }
+.perform-viewport {
+  flex: 1; position: relative; overflow: hidden;
+  -webkit-mask-image: linear-gradient(transparent, #000 25%, #000 75%, transparent);
+  mask-image: linear-gradient(transparent, #000 25%, #000 75%, transparent);
+}
+.perform-track { position: relative; padding: 0 24px; transition: transform 0.4s ease; }
+.perform-line { padding: 2.5vh 0; opacity: 0.3; transition: opacity 0.4s ease; text-align: center; }
+.perform-line.current { opacity: 1; }
+.perform-chords { display: flex; justify-content: center; gap: 1.2em; font-family: ui-monospace, monospace; font-weight: 700; font-size: clamp(1.25rem, 3.5vw, 2.5rem); color: #6cb4ff; }
+.perform-chords span { padding: 0 0.2em; border-radius: 4px; }
+.perform-chords span.active { background: #6cb4ff; color: #111; }
+.perform-lyric { font-size: clamp(1.75rem, 5vw, 3.75rem); font-weight: 600; line-height: 1.2; }
+.perform-progress { height: 4px; background: #222; }
+.perform-progress div { height: 100%; background: #6cb4ff; }
+.perform-controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; padding: 16px; }
+.perform-controls button { background: #222; color: #eee; border-color: #333; padding: 8px 14px; }
+.perform-controls button.primary { background: #0b5cad; border-color: #0b5cad; }
