@@ -53,9 +53,9 @@ cp .env.prod.example .env.prod   # set a real POSTGRES_PASSWORD
 docker compose -f docker-compose-PROD.yml --env-file .env.prod up -d --build
 ```
 
-- The frontend is built into static files and served by nginx on `APP_PORT` (default 80). nginx proxies `/api/*` to the backend.
-- The backend and Postgres are not published to the host; data lives in the `papyrus-prod_db_data` volume.
+- The UI container serves the built frontend on `127.0.0.1:UI_PORT` (default 3000); the API is on `127.0.0.1:API_PORT` (default 8000). Neither is reachable from outside the server.
+- The host's nginx fronts both: `/` → UI, `/api/` → API. A ready-to-use site config is in `deploy/nginx/papyrus.conf` (set `server_name` and keep the ports in sync with `.env.prod`).
+- Postgres is not published; data lives in the `papyrus-prod_db_data` volume.
 - Always pass `--env-file .env.prod`: without it Compose falls back to the dev `.env`.
-- No TLS is configured — put it behind a TLS-terminating proxy (Caddy, Traefik, a load balancer, …) for HTTPS.
 
 Update: `git pull && docker compose -f docker-compose-PROD.yml --env-file .env.prod up -d --build`
